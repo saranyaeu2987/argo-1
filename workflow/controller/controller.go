@@ -746,7 +746,7 @@ func (wfc *WorkflowController) addWorkflowInformerHandlers(ctx context.Context) 
 					}
 					key, err := cache.MetaNamespaceKeyFunc(new)
 					if err == nil {
-						wfc.wfQueue.AddRateLimited(key)
+						wfc.wfQueue.AddAfter(key, wfc.Config.InitialDelay)
 						priority, creation := getWfPriority(new)
 						wfc.throttler.Add(key, priority, creation)
 					}
